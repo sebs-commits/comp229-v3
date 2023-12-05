@@ -1,19 +1,27 @@
-import path from 'path';
-import express from 'express';
-import multer from 'multer';
-
+import path from "path";
+import express from "express";
+import multer from "multer";
+import fs from "fs";
 const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, 'uploads/');
+    // Create the 'uploads' directory if it doesn't exist
+    const dir = "uploads/";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    cb(null, dir);
   },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
+  // destination(req, file, cb) {
+  //   cb(null, 'uploads/');
+  // },
+  // filename(req, file, cb) {
+  //   cb(
+  //     null,
+  //     `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+  //   );
+  // },
 });
 
 function fileFilter(req, file, cb) {
@@ -26,21 +34,21 @@ function fileFilter(req, file, cb) {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error('Images only!'), false);
+    cb(new Error("Images only!"), false);
   }
 }
 
 const upload = multer({ storage, fileFilter });
-const uploadSingleImage = upload.single('image');
+const uploadSingleImage = upload.single("image");
 
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
   uploadSingleImage(req, res, function (err) {
     if (err) {
       return res.status(400).send({ message: err.message });
     }
 
     res.status(200).send({
-      message: 'Image uploaded successfully',
+      message: "Image uploaded successfully",
       image: `/${req.file.path}`,
     });
   });

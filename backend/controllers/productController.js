@@ -46,7 +46,8 @@ const createProduct = asyncHandler(async (req, res) => {
     name: "Sample name",
     price: 0,
     user: req.user._id,
-    image: "/images/sample.jpg",
+    image: req.file ? `/uploads/${req.file.filename}` : "/images/sample.jpg",
+    //image: "/images/sample.jpg",
     brand: "Sample brand",
     category: "Sample category",
     countInStock: 0,
@@ -145,7 +146,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(3);
-
   res.json(products);
 });
 
