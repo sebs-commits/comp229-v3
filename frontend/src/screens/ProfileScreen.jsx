@@ -43,7 +43,6 @@ const ProfileScreen = () => {
       }
     }
   };
-
   return (
     <Row>
       <Col md={3}>
@@ -96,7 +95,6 @@ const ProfileScreen = () => {
           {loadingUpdateProfile && <Loader />}
         </Form>
       </Col>
-      
     </Row>
   );
 };

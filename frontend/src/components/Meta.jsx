@@ -11,9 +11,9 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: 'Welcome to Patches',
-  description: 'We sell awesome patches for your clothing repairs',
-  keywords: 'stickers, custom patches',
+  title: 'Welcome to Patch',
+  description: 'We sell all sorts of custom patches',
+  keywords: 'patches, hole filler',
 };
 
 export default Meta;
